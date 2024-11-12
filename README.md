@@ -1,5 +1,48 @@
-# S3F
-Sequence-Structure-Surface Model for Protein Fitness Prediction (S3F)
+# Sequence-Structure-Surface Model for Protein Fitness Prediction (S3F)
+
+This is the official codebase of the paper
+
+Multi-Scale Representation Learning for Protein Fitness Prediction, NeurIPS'2024
+
+[[ArXiv]()] [[OpenReview]()]
+
+Zuobai Zhang*, Pascal Notin*, Yining Huang, Aurelie Lozano, Vijil Chenthamarakshan, Debora Marks, Payel Das, Jian Tang
+
+## Overview
+
+*Sequence-Structure-Surface Fitness Model (**S3F**)* is a novel multimodal representation learning framework that integrates protein features across several scales. The model is pre-trained on the CATH dataset and evaluated by zero-shot protein fitness on [ProteinGym](https://proteingym.org/).
+
+![GearNet](./asset/s3f.png)
+
+This codebase is based on PyTorch and [TorchDrug] ([TorchProtein](https://torchprotein.ai)). 
+
+[TorchDrug]: https://github.com/DeepGraphLearning/torchdrug
+
+# TODO
+1. Add README
+2. Add result files
+3. Upload model weights and dataset
+4. Submit MR to ProteinGym
+
+## Installation
+
+You may install the dependencies via either conda or pip. Generally, GearNet works
+with Python 3.7/3.8 and PyTorch version >= 1.8.0.
+
+### From Conda
+
+```bash
+conda install torchdrug pytorch=1.8.0 cudatoolkit=11.1 -c milagraph -c pytorch-lts -c pyg -c conda-forge
+conda install easydict pyyaml -c conda-forge
+```
+
+### From Pip
+
+```bash
+pip install torch==1.8.0+cu111 -f https://download.pytorch.org/whl/lts/1.8/torch_lts.html
+pip install torchdrug
+pip install easydict pyyaml
+```
 
 ## Dataset Process
 
@@ -64,3 +107,14 @@ python script/evaluate.py -c config/evaluate/s2f.yaml --datadir ./dataset/DMS_Pr
 python script/evaluate.py -c config/evaluate/s3f.yaml --datadir ./dataset/DMS_ProteinGym_substitutions --structdir ./dataset/ProteinGym_AF2_structures --surfdir ./dataset/processed_surface_proteingym/ --ckpt <path_to_ckpt>
 ```
 
+## Citation
+If you find this codebase useful in your research, please cite the following papers.
+
+```bibtex
+@inproceedings{zhang2022s3f,
+  title={Multi-Scale Representation Learning for Protein Fitness Prediction},
+  author={Zhang, Zuobai and Notin, Pascal and Huang, Yining and Lozano, Aurelie and Chenthamarakshan, Vijil and Marks, Debora and Das, Payel and Tang, Jian},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2024}
+}
+```
