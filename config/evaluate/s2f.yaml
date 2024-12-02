@@ -2,11 +2,11 @@ output_dir: ~/scratch/proteingym_output
 
 summary:
   class: ProteinGym
-  path: ~/scratch/protein-datasets/DMS_ProteinGym_substitutions
+  path: {{ datadir }}
   csv_file: DMS_substitutions.csv
 
-structure_path: ~/scratch/protein-datasets/DMS_ProteinGym_substitutions/   # {{ structdir }}
-surface_path: ~/scratch/protein-datasets/DMS_ProteinGym_substitutions/ProteinGym_surface  # {{ surfdir }}
+structure_path: {{ structdir }}
+surface_path: {{ surfdir }}
 
 # id_list:      # If you only want to evaluate a subset of assays
 #   - B2L11_HUMAN_Dutta_2010_binding-Mcl-1
@@ -62,4 +62,4 @@ task:
 gpus: [0]   # Only support single gpu inference now
 batch_size: 4
 
-model_checkpoint: ~/projects/rrg-bengioy-ad/oxer/protein-model-weights/profit-model-weights/esm_gvp.pth
+model_checkpoint: {{ ckpt }}

@@ -46,7 +46,7 @@ optimizer:
 
 engine:
   gpus: [0, 1, 2, 3]
-  batch_size: 32
+  batch_size: 32    # Batch size per gpu
 
 fix_sequence_model: True    # Do not tune esm model weights
 
