@@ -10,17 +10,13 @@ Zuobai Zhang*, Pascal Notin*, Yining Huang, Aurelie Lozano, Vijil Chenthamaraksh
 
 ## Overview
 
-*Sequence-Structure-Surface Fitness Model (**S3F**)* is a novel multimodal representation learning framework that integrates protein features across several scales. The model is pre-trained on the CATH dataset and evaluated by zero-shot protein fitness on [ProteinGym](https://proteingym.org/). The summary of our results on ProteinGym can be found [here](./asset/DMS_substitutions_Spearman_DMS_level.csv). The datasets and model checkpoints for this project can be downloaded from [this link]().
+*Sequence-Structure-Surface Fitness Model (**S3F**)* is a novel multimodal representation learning framework that integrates protein features across several scales. The model is pre-trained on the CATH dataset and evaluated by zero-shot protein fitness on [ProteinGym](https://proteingym.org/). The summary of our results on ProteinGym can be found [here](./asset/DMS_substitutions_Spearman_DMS_level.csv). The datasets and model checkpoints for this project can be downloaded from [this link](https://zenodo.org/records/14257708).
 
 ![GearNet](./asset/s3f.png)
 
 This codebase is based on PyTorch and [TorchDrug] ([TorchProtein](https://torchprotein.ai)). 
 
 [TorchDrug]: https://github.com/DeepGraphLearning/torchdrug
-
-# TODO
-3. Upload model weights and dataset
-4. Submit MR to ProteinGym
 
 ## Installation
 
@@ -54,10 +50,10 @@ wget https://marks.hms.harvard.edu/proteingym/ProteinGym_AF2_structures.zip -O .
 unzip ProteinGym_AF2_structures.zip -d ./dataset/ProteinGym_AF2_structures
 ```
 
-Then, running S3F requires to first generate the surfaces based on ProteinGym structures. You can choose either to download our pre-processed version of surface graphs at [link]() or process surface graphs by yourself.
+Then, running S3F requires to first generate the surfaces based on ProteinGym structures. You can choose either to download our pre-processed version of surface graphs at [link](https://zenodo.org/records/14257708/files/processed_surface_proteingym.zip) or process surface graphs by yourself.
 ```bash
 # Download the processed surface graphs
-wget https://<link_to_processed_surface_proteingym>/processed_surface_proteingym.zip -P ./dataset
+wget https://zenodo.org/records/14257708/files/processed_surface_proteingym.zip -P ./dataset
 unzip ./dataset/processed_surface_proteingym.zip -d ./dataset
 
 # Or process surface graphs by yourself
@@ -75,7 +71,7 @@ There is a `task.model.sequence_model.path` argument in each config file to cont
 
 ### Evaluation
 
-We prodive both S2F and S3F model checkpoints for evaluation. You can download these checkpoints from [link]() and then run the following commands for evaluation. Right now, we only support single-gpu evaluation, which takes around 20 hours for all 217 assays on one A100 GPU.
+We prodive both S2F and S3F model checkpoints for evaluation. You can download these checkpoints from [link](https://zenodo.org/records/14257708) and then run the following commands for evaluation. Right now, we only support single-gpu evaluation, which takes around 20 hours for all 217 assays on one A100 GPU. The output files can be found at `~/scratch/proteingym_output`, which is specified by the `output_dir` argument in the `*.yaml`.
 
 ```bash
 # Run evaluation for S2F
@@ -89,20 +85,15 @@ python script/evaluate.py -c config/evaluate/s3f.yaml --datadir ./dataset/DMS_Pr
 
 ### Dataset preparation 
 We also provide the code for pre-training on the CATH dataset with residue type prediction objective.
-To get started, you need to either download our processed version of the cath dataset from [link]() or download a raw version from [this repo](https://github.com/tyang816/ProtSSN) and preload it with our script.
-
+To get started, you need to download a raw version from [this repo](https://github.com/tyang816/ProtSSN) and preload it with our script.
 ```bash
-# Download the processed cath dataset
-wget https://<link_to_processed_cath>/processed_cath.zip -P ./dataset
-unzip ./dataset/processed_cath.zip -d ./dataset
-
-# Or download raw cath dataset and process it
+# Download raw cath dataset and process it
 wget https://huggingface.co/datasets/tyang816/cath/blob/main/dompdb.tar -P ./dataset
 tar -xvf dompdb.tar -C ./dataset
 python script/preload_dataset.py -i ./dataset/dompdb/ -o ./dataset/processed_cath/
 ```
 
-Again, to pre-train S3F, you need to first process the surface graphs for the protein. However, as the files are too large (over 150G), we cannot provide the processed version. You need to run the following command to re-process the surface graphs by yourself.
+Then, to pre-train S3F, you need to first process the surface graphs for the protein. However, as the files are too large (over 150G), we cannot provide the processed version. You need to run the following command to re-process the surface graphs by yourself.
 ```bash
 # Process surface graphs (require one GPU to compute)
 python script/process_surface.py -i ./dataset/processed_cath/ -o ./dataset/processed_surface_cath/
@@ -111,7 +102,7 @@ python script/process_surface.py -i ./dataset/processed_cath/ -o ./dataset/proce
 
 ### Pre-training
 
-To pre-train the S2F or S3F models, please run the following commands. Here we use 4 A100 GPUs for training. The output files can be found at `~/scratch/proteingym_output`, which is specified by the `output_dir` argument in the `*.yaml`.
+To pre-train the S2F or S3F models, please run the following commands. Here we use 4 A100 GPUs for training. 
 ```bash
 # Pre-train S2F model
 python -m torch.distributed.launch --nproc_per_node=4 script/pretrain.py -c config/pretrain/s2f.yaml --datadir ./dataset/processed_cath
