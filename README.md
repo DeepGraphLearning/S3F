@@ -4,7 +4,7 @@ This is the official codebase of the paper
 
 **Multi-Scale Representation Learning for Protein Fitness Prediction**, *NeurIPS'2024*
 
-[[ArXiv]()] [[OpenReview](https://openreview.net/forum?id=kWMVzIdCEn)]
+[[ArXiv](https://arxiv.org/abs/2412.01108)] [[OpenReview](https://openreview.net/forum?id=kWMVzIdCEn)]
 
 Zuobai Zhang*, Pascal Notin*, Yining Huang, Aurelie Lozano, Vijil Chenthamarakshan, Debora Marks, Payel Das, Jian Tang
 
@@ -58,7 +58,7 @@ unzip ./dataset/processed_surface_proteingym.zip -d ./dataset
 
 # Or process surface graphs by yourself
 python script/preload_dataset.py -i ./dataset/ProteinGym_AF2_structures/ -o ./dataset/processed_proteingym/
-python script/process_surface.py -i ./dataset/processed_proteingym/ -o ./dataset/processed_surface_proteingym/
+python script/process_surface.py -i ./dataset/processed_proteingym/ -o ./dataset/processed_surface_gym/
 ```
 
 As the model is based on the ESM-2-650M model, you need to first download the ESM model checkpoint.
@@ -78,7 +78,7 @@ We prodive both S2F and S3F model checkpoints for evaluation. You can download t
 python script/evaluate.py -c config/evaluate/s2f.yaml --datadir ./dataset/DMS_ProteinGym_substitutions --structdir ./dataset/ProteinGym_AF2_structures --ckpt <path_to_ckpt>
 
 # Run evaluation for S3F
-python script/evaluate.py -c config/evaluate/s3f.yaml --datadir ./dataset/DMS_ProteinGym_substitutions --structdir ./dataset/ProteinGym_AF2_structures --surfdir ./dataset/processed_surface_proteingym/ --ckpt <path_to_ckpt>
+python script/evaluate.py -c config/evaluate/s3f.yaml --datadir ./dataset/DMS_ProteinGym_substitutions --structdir ./dataset/ProteinGym_AF2_structures --surfdir ./dataset/processed_surface_gym/ --ckpt <path_to_ckpt>
 ```
 
 ## Pre-train on CATH dataset
@@ -117,7 +117,7 @@ To customize your pre-training setting, you need to adapt `config/pretrain/s3f.y
 If you find this codebase useful in your research, please cite the following papers.
 
 ```bibtex
-@inproceedings{zhang2022s3f,
+@inproceedings{zhang2024s3f,
   title={Multi-Scale Representation Learning for Protein Fitness Prediction},
   author={Zhang, Zuobai and Notin, Pascal and Huang, Yining and Lozano, Aurelie and Chenthamarakshan, Vijil and Marks, Debora and Das, Payel and Tang, Jian},
   booktitle={Advances in Neural Information Processing Systems},
